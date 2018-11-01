@@ -23,15 +23,31 @@ The open source and commercial scanners are usually good at what they do, namely
 
 For our in-house made scanners we noticed that we tended to re-write the code for finding the right owners and cobbling together templates and email sending code to notify the correct owner, every implementation with its own set of bugs.
 
-We also realized that these alerts are a great source of data and can be used to better direct our teaching efforts where they do the most impact.
+We also realized that these alerts are a great source of data and can be used to better direct our teaching efforts where they do the most impact. Moreover by looking at what areas of the company are not getting alerts we can learn about where we need to implement better scanning capabilities.
 
 This is where Comet comes into the picture. We wanted a robust and scalable alert handling tool, that would automate away a lot of the manual work and at the same time provide us with metrics and an overview of our infrastructure security. The design is modularised to allow for others to tailor Comet to their specific needs and context. 
 
 
 # Feature description
+Below are a bunch of features that are configurable per a alert source. 
 
-(here goes description of what features comet-core offers (like batching, grouping) and comet-common contains 
-(gcloud google pubsub input plugin, detectify and forseti parsers))
+   Email Customization: Each type of alert by customized per a alert source. You can put different instructions into the email depending on the alert.
+
+   Batching: For every alert type we have a configurable batching time. This means we will wait to send out emails until that amount of time has passed. This is useful for scans that run at a set time and produce many alerts. A team will get a single email instead of a email for each problem.
+
+   Snoozing: A alert for a single thing will only go out once over a configurable time span for each alert. This means you will not get a email every day about the same bug.
+   Whitelisting: Developers can whitelist an alert. They can chose different reasons for whitelisting including because an alert is false positive or because they alert thing they were alerted about is an excepted business risk.
+
+   Escalations: You can decide to whom and when to escalate alerts. For example some alerts you might want to escalate right away, others you might never want to excilate. To whom is a single static field. You can configure it so each alert owner gets escalated to for their own scanners.
+
+We have also build some plugins that are useful for tools that other people might also be using. 
+   GCP Pubsub: Right now we ingest the alerts through Google pubsub. If you are using GCP then you can use this plugin as the input plugin.
+
+   Detectify: Detectify is a web scanning tool we use at Spotify. If you are also a customer then this will take the detectify alerts and send them into the comet pipeline.
+
+   Forseti: This will take Forseti alerts and send them through comet. This allows tracking of metrics for comet.
+
+
 
 # Quick Start
 
@@ -243,3 +259,11 @@ data=events)
 ```
 
 In the email template `risky_toaster_template.html` we can do more grouping or sorting, assuming that one toaster owner is responsible for several toasters. For example alerts can be sorted by location or grouped by new/old status, first presenting all newly discovered risky toasters, and then having a reminder list about the still open issues for toasters that have been reported before but are not fixed yet.
+
+
+# Code of Conduct
+
+This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
+
+[code-of-conduct]: https://github.com/spotify/code-of-conduct/blob/master/code-of-conduct.md
+
