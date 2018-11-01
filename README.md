@@ -1,10 +1,10 @@
-Comet is an alert distribution framework which allows you to distribute alerts all the way to the resource owner with customizable owner lookup, de-duplication, alert formatting as well as automated follow up and metrics.
+Comet is an alert distribution framework which allows you to distribute alerts all the way to the resource owner with customizable owner lookup, de-duplication, alert formatting as well as automated follow-up and metrics.
 
 Built with ❤️ at Spotify
 
 # Structure
 
-Comet is build as a collection of plugins that can be combined to build your own app. This repository hosts an example application using the two public Comet libraries comet-core and comet-common.
+Comet is built as a collection of plugins that can be combined to build your own application. This repository hosts an example application using the two public Comet libraries comet-core and comet-common.
 
 ## comet core
 https://github.com/spotify/comet-core
@@ -14,10 +14,10 @@ Core plugin providing the comet app (including data store, event batching and gr
 ## comet-common
 https://github.com/spotify/comet-common
 
-Common plugin with input plugins (for example for Google pubsub)  and parsers (for example for Detectify and Forseti).
+Common plugin with input plugins (for example for Google pubsub) and parsers (for example for Detectify and Forseti).
 
 # Background
-In order to maintain security of all different parts of Spotify's infrastructure, the Security team has been employing automated security scanning, such as Forseti, Detectify and customized scanners that we've built in house.
+In order to maintain security of all different parts of Spotify's infrastructure, the Security team has been employing automated security scanning, such as Forseti, Detectify, and customized scanners that we've built in house.
 
 The open source and commercial scanners are usually good at what they do, namely scanning, but have less functionality for directing the alerts and reports to the right place. As such this mostly ended up as manual work for the security teams.
 
@@ -29,24 +29,25 @@ This is where Comet comes into the picture. We wanted a robust and scalable aler
 
 
 # Feature description
-Below are a bunch of features that are configurable per a alert source. 
+Below are a bunch of features that are configurable per alert source. 
 
    Email Customization: Each type of alert by customized per a alert source. You can put different instructions into the email depending on the alert.
 
    Batching: For every alert type we have a configurable batching time. This means we will wait to send out emails until that amount of time has passed. This is useful for scans that run at a set time and produce many alerts. A team will get a single email instead of a email for each problem.
 
    Snoozing: A alert for a single thing will only go out once over a configurable time span for each alert. This means you will not get a email every day about the same bug.
+   
    Whitelisting: Developers can whitelist an alert. They can chose different reasons for whitelisting including because an alert is false positive or because they alert thing they were alerted about is an excepted business risk.
 
    Escalations: You can decide to whom and when to escalate alerts. For example some alerts you might want to escalate right away, others you might never want to excilate. To whom is a single static field. You can configure it so each alert owner gets escalated to for their own scanners.
 
 We have also build some plugins that are useful for tools that other people might also be using. 
+
    GCP Pubsub: Right now we ingest the alerts through Google pubsub. If you are using GCP then you can use this plugin as the input plugin.
 
    Detectify: Detectify is a web scanning tool we use at Spotify. If you are also a customer then this will take the detectify alerts and send them into the comet pipeline.
 
    Forseti: This will take Forseti alerts and send them through comet. This allows tracking of metrics for comet.
-
 
 
 # Quick Start
@@ -64,7 +65,7 @@ Clone this repository:
 git clone https://github.com/spotify/comet
 ```
 
-Change to the example directory, all further steps are performed from that directory if it is not stated otherwise
+Change to the example directory, all further steps are performed from that directory if it is not stated otherwise.
 
 ```bash
 cd comet/comet_example
@@ -125,7 +126,7 @@ And run Comet:
 python comet/main.py
 ```
 
-Now you should see log messages reporting that Comet initialized, the last one saying
+Now you should see log messages reporting that Comet initialized, the last one saying:
 
 > Starting the Comet app...
 
@@ -184,12 +185,10 @@ curl localhost:5000/v0/snooze \
 To add a new alert source, first make sure that it can send messages to an existing input plugin or add a new input plugin for that purpose. For example, if the alert source can publish pubsub messages, you can use the the pubsub input plugin to receive these messages in Comet.
 
 Then, you write a new Comet plugin that can handle these messages. This usually consists of these three to four steps:
-write a parser, that is a schema that expresses what format the incoming message is expected to have,
-write a hydrator, that enriches incoming messages with additional data, such as looking up an owner for the resource that the alert is about, 
-write a router that defines which output plugins should be used for messages from this alert source, and
-depending on which output plugins you choose, you might also want to write templates for them, for example a custom email template for email notifications.
+write a parser, that is a schema that expresses what format the incoming message is expected to have, write a hydrator, that enriches incoming messages with additional data, such as looking up an owner for the resource that the alert is about, write a router that defines which output plugins should be used for messages from this alert source, and depending on which output plugins you choose, you might also want to write templates for them, for example a custom email template for email notifications.
 
 ## Example
+
 Let’s assume you work in a company that has an office with several floors and that has a couple of toasters on each floor. Every toaster has a configurable default heat level and employees have the freedom to change that. You are working in the security team and you don’t want to block people from using high default heat levels, but you would at least like to warn them if they do so, to double check that this risky setting was actually intended. Luckily your company bought smart-toasters that can talk pubsub, so you configure the toasters to publish a pubsub message once per day in case a high default heat level was selected. As you are only a small security team, you cannot react on all of these alerts yourself, so you would like to distribute them to the “toaster owners” which are employees who are responsible for all the toasters on one floor (your identity management team has a database that is kept up to date with information about which employee is responsible for which floor). This is happens to be the perfect use-case for a distributed security alerting system like Comet, so let’s see how to use it to solve this task.
 
 Let’s assume that the toasters send pubsub messages that have an attribute `source_type` set to “riskytoaster” (to distinguish it from other alert sources that might use pubsub as well) with a json blob in the data body that might look like this:
@@ -204,7 +203,9 @@ Let’s assume that the toasters send pubsub messages that have an attribute `so
 ```
 
 Now, let’s write the plugin:
+
 ### Parser
+
 First, we define a marshmallow `Schema` that describes which fields we expect from the incoming message. In the example below, these are exactly the fields that we listed in the example alert message above. 
 
 We assume that we have a Comet app instance assigned to the variable APP, so we call it’s `register_parser` method to register the schema as a parser for our source type.
@@ -221,7 +222,9 @@ class RiskyToasterSchema(Schema):
 
 APP.register_parser('riskytoaster', RiskyToasterSchema)
 ```
+
 ### Hydrator
+
 Often, you want to enrich - or “hydrate” - the incoming messages with more data that is not directly provided by the alert source. In our example, there is a separate database for who is responsible for toasters on each floor - we call them toaster owners - and we assume that there is an API that we can access with the `find_toaster_owner` method that lets us look up the toaster owner given a floor number. So we want to write a hydrator that adds the ownership information to every incoming alert message using that API.
 
 Assuming that you have a Comet app instance assigned to APP, you can register a hydrator for your alert source. You can do this by writing a function and decorating it with the `register_hydrator` method of the Comet app, which takes the source type that it can handle as an argument. In the example below, we call the toaster-owner API to assign an owner to an incoming event. We also populate a couple of metadata fields that can be used by output plugins or for generating metrics. For example, you want to aggregate the number of alerts per `resource` or organizational unit. For the latter, in the example code below, we assume that there is another API mapping email addresses to organizational units that can be accessed by the `get_organizational_unit` method.
@@ -244,7 +247,9 @@ event.message.get('toaster_location_floor'))
 }.get(event.message.get('alert_type', 'Risky toaster found.')
 })
 ```
+
 ### Router
+
 Finally we need to make sure that risky toaster alerts are routed through the right channels to the toaster owners. A router is invoked every time there are new events for an alert source that need to be sent out. The router gets a list of events that are already grouped per owner, labelled as new or old (a `new` field is set to `True` or `False` depending on if an alert with the same fingerprint has been seen before) and where whitelisted and snoozed alerts are already filtered out.
 
 In our example we assume that we have an EMAILER output plugin that can send emails, and simply deliver the list of events to the owner.
