@@ -1,0 +1,2 @@
+comet-common==1.0.5
+comet-core==1.0.4

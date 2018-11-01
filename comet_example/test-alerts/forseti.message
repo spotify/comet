@@ -1,0 +1,15 @@
+{
+    "id": 3,
+    "project_id": "comet-test",
+    "project_owner": "example-resource-owner",
+    "resource": "policy_violations",
+    "resource_id": "test-resource-id",
+    "resource_type": "project",
+    "rule_index": 0,
+    "rule_name": "IAM whitelist roles",
+    "violation_data": {
+        "member": "user:test@example.com",
+        "role": "roles/owner"
+    },
+    "violation_type": "ADDED"
+}

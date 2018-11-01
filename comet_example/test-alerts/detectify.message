@@ -1,0 +1,53 @@
+{
+    "domain": "example.com",
+    "domain_token": "e1876682d20011e8bcb0a72fbb9edbad",
+    "payload": {
+        "definition": {
+            "description": "The domain lacks a DNS SPF policy record. SPF policies must to be applied on every domain (including subdomains) having either an A, AAAA or MX record.\r\n\r\nRead more about SPF here (http://support.detectify.com/customer/en/portal/articles/2166468-missing-spf-record).\r\n\r\nIf it is not possible to set the SPF-record (eg., CNAME to an externally owned domain) this issue can instead be remediated by setting a DMARC-record on naked domain. Read more about it here (https://support.detectify.com/customer/en/portal/articles/2466214-missing-insufficient-dmarc-record).",
+            "references": [
+                {
+                    "link": "https://app.dmarcanalyzer.com/dns/spf",
+                    "name": "SPF Validator (dmarcanalyzer.com)",
+                    "source": "MISC",
+                    "uuid": "0ae1ee8a-d201-11e8-a178-cb2f8ea00067"
+                }
+            ],
+            "risk": "An attacker will be able to spoof emails originating from the domain, allowing for phishing attacks or other scams.",
+            "uuid": "1680beba-d201-11e8-b0be-eb1fba116dde"
+        },
+        "found_at": "example.com",
+        "owasp": [
+            {
+                "classification": "A5",
+                "year": 2013
+            }
+        ],
+        "report_token": "1e7de354d20111e8a6479bce240401616479bce4",
+        "scan_profile_token": "36332ef0d20111e8a39717bb4501f49",
+        "score": [
+            {
+                "score": 6.2,
+                "vector": "AV:N/AC:M/Au:N/C:N/I:C/A:N/E:H/RL:OF/RC:C",
+                "version": "2.0"
+            }
+        ],
+        "signature": "49c92172d20111e89679e3a186e009de",
+        "tags": [
+            {
+                "type": "Tag High",
+                "value": "high"
+            }
+        ],
+        "target": {
+            "address": "example.com",
+            "type": "Domain",
+            "uuid": "5741b6b6-d201-11e8-9f62-e71eaa8fd7d0"
+        },
+        "timestamp": "2018-10-16T17:29:03Z",
+        "title": "Email Spoofing / Missing SPF Record",
+        "url": "https://detectify.com/report/1e7de354d20111e8a6479bce240401616479bce4/36332ef0d20111e8a39717bb4501f49",
+        "uuid": "9d3b0136-d201-11e8-9526-07a8e8383345"
+    },
+    "profile_token": "36332ef0d20111e8a39717bb4501f49",
+    "scan_token": "1e7de354d20111e8a6479bce240401616479bce4"
+}
