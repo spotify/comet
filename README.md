@@ -6,6 +6,9 @@ Built with ❤️ at Spotify
 
 Comet is built as a collection of plugins that can be combined to build your own application. This repository hosts an example application using the two public Comet libraries comet-core and comet-common.
 
+## Architecture
+![Comet Architecture](cometArchitecture.png)
+
 ## comet core
 https://github.com/spotify/comet-core
 
