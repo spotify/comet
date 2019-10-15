@@ -268,6 +268,22 @@ data=events)
 
 In the email template `risky_toaster_template.html` we can do more grouping or sorting, assuming that one toaster owner is responsible for several toasters. For example alerts can be sorted by location or grouped by new/old status, first presenting all newly discovered risky toasters, and then having a reminder list about the still open issues for toasters that have been reported before but are not fixed yet.
 
+### Filter
+
+You can use our filter decorator as well, in cases you would want to filter messages by defined conditions before saving them into the DB.
+
+In our example we assume that we have a filter function which includes filtering events only if their owner is one of our alpha customers, which we define in a different config file.
+
+```python
+@APP.register_filter('riskytoaster')
+def filter(event):
+   event_owner = event['owner']
+   if event_owner in config.ALPHA_CUSTOMERS:
+      return event
+   return None
+```
+
+If the owner is not one of our alpha customers, we return None so that later the event won't be saved into the database.
 
 # Code of Conduct
 
