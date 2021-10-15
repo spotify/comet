@@ -1,7 +1,7 @@
 # Comet
 
 _Comet is deprecated and we are decommissioning our internal installation. We
-will only do minor changes until we plan on archiving these repositories in
+will only make minor changes until we plan on archiving these repositories in
 early 2022. If you are using Comet, please create an issue to discuss Comets
 future._
 
@@ -36,30 +36,30 @@ Common plugin with input plugins (for example for Google pubsub) and parsers
 
 ## Background
 
-In order to maintain security of all different parts of Spotify's
+In order to maintain security of many different parts of Spotify's
 infrastructure, the Security team has been employing automated security
 scanning, such as Forseti, Detectify, and customized scanners that we've built
 in house.
 
 The open source and commercial scanners are usually good at what they do,
 namely scanning, but have less functionality for directing the alerts and
-reports to the right place. As such this mostly ended up as manual work for the
+reports to the right place. As such, this mostly ended up as manual work for the
 security teams.
 
-For our in-house made scanners we noticed that we tended to re-write the code
+For our in-house made scanners, we noticed that we tended to re-write the code
 for finding the right owners and cobbling together templates and email sending
 code to notify the correct owner, every implementation with its own set of
 bugs.
 
 We also realized that these alerts are a great source of data and can be used
-to better direct our teaching efforts where they do the most impact. Moreover
-by looking at what areas of the company are not getting alerts we can learn
+to better direct our teaching efforts where they make the most impact. Moreover
+by looking at what areas of the company are not getting alerts, we can learn
 about where we need to implement better scanning capabilities.
 
 This is where Comet comes into the picture. We wanted a robust and scalable
 alert handling tool, that would automate away a lot of the manual work and at
 the same time provide us with metrics and an overview of our infrastructure
-security. The design is modularised to allow for others to tailor Comet to
+security. The design is modular to allow for others to tailor Comet to
 their specific needs and context. 
 
 ## Feature description
@@ -84,7 +84,7 @@ Below are a bunch of features that are configurable per alert source.
   want to escalate. To whom is a single static field. You can configure it so
   each alert owner gets escalated to for their own scanners.
 
-We have also build some plugins that are useful for tools that other people
+We have also built some plugins that are useful for tools that other people
 might also be using. 
 
 - GCP Pubsub: Right now we ingest the alerts through Google pubsub. If you are
