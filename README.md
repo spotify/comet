@@ -2,8 +2,7 @@
 
 _Comet is deprecated and we are decommissioning our internal installation. We
 will only make minor changes until we plan on archiving these repositories in
-early 2022. If you are using Comet, please create an issue to discuss Comets
-future._
+2022. If you are using Comet, please create an issue to discuss Comets future._
 
 Comet is an alert distribution framework which allows you to distribute alerts
 all the way to the resource owner with customizable owner lookup,
